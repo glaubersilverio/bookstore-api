@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import br.com.gsr.bookstore.domain.Categoria;
 import br.com.gsr.bookstore.domain.Livro;
 import br.com.gsr.bookstore.dtos.LivroDTO;
 import br.com.gsr.bookstore.repositories.LivroRepository;
@@ -32,8 +33,10 @@ public class LivroService {
 		return this.livroRepository.findAll();
 	}
 	
-	public Livro create (Livro obj) {
+	public Livro create (Long idCat, Livro obj) {
 		obj.setId(null);
+		Categoria cat = this.categoriaService.findById(idCat);
+		obj.setCategoria(cat);
 		return this.livroRepository.save(obj);
 	}
 
