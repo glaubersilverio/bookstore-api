@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,13 @@ public class LivroResource {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<LivroDTO> update(@PathVariable (name = "id") Long id, @RequestBody LivroDTO objDto) {
+		Livro newObj = this.livroService.update(id, objDto);
+		return ResponseEntity.ok().body(new LivroDTO(newObj));
+		
+	}
+	
+	@PatchMapping("/{id}")
+	public ResponseEntity<LivroDTO> updatePatch(@PathVariable (name = "id") Long id, @RequestBody LivroDTO objDto) {
 		Livro newObj = this.livroService.update(id, objDto);
 		return ResponseEntity.ok().body(new LivroDTO(newObj));
 		
