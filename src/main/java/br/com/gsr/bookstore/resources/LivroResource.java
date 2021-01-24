@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +25,7 @@ import br.com.gsr.bookstore.domain.Livro;
 import br.com.gsr.bookstore.dtos.LivroDTO;
 import br.com.gsr.bookstore.service.LivroService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/livros")
 public class LivroResource {
@@ -47,21 +51,21 @@ public class LivroResource {
 	@PostMapping
 	public ResponseEntity<Livro> create(
 			@RequestParam(value="categoria", defaultValue = "0") Long idCat,
-			@RequestBody Livro obj) {
+			@Valid @RequestBody Livro obj) {
 		obj = this.livroService.create(idCat, obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<LivroDTO> update(@PathVariable (name = "id") Long id, @RequestBody LivroDTO objDto) {
+	public ResponseEntity<LivroDTO> update(@PathVariable (name = "id") Long id, @Valid @RequestBody LivroDTO objDto) {
 		Livro newObj = this.livroService.update(id, objDto);
 		return ResponseEntity.ok().body(new LivroDTO(newObj));
 		
 	}
 	
 	@PatchMapping("/{id}")
-	public ResponseEntity<LivroDTO> updatePatch(@PathVariable (name = "id") Long id, @RequestBody LivroDTO objDto) {
+	public ResponseEntity<LivroDTO> updatePatch(@PathVariable (name = "id") Long id, @Valid @RequestBody LivroDTO objDto) {
 		Livro newObj = this.livroService.update(id, objDto);
 		return ResponseEntity.ok().body(new LivroDTO(newObj));
 		

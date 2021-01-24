@@ -2,6 +2,9 @@ package br.com.gsr.bookstore.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import br.com.gsr.bookstore.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
@@ -9,7 +12,13 @@ public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@NotEmpty(message = "The field Nome is required")
+	@Size(min = 5, max = 100, message = "The field Nome must be between 5 and 100 characters")
 	private String nome;
+	
+	@NotEmpty(message = "The field Descricao is required")
+	@Size(min = 5, max = 100, message = "The field Descricao must be between 5 and 100 characters")
 	private String descricao;
 
 	public CategoriaDTO() {

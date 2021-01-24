@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categoria")
@@ -20,7 +22,13 @@ public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotEmpty(message = "The field Nome is required")
+	@Size(min = 5, max = 100, message = "The field Nome must be between 5 and 100 characters")
 	private String nome;
+	
+	@NotEmpty(message = "The field Descricao is required")
+	@Size(min = 5, max = 100, message = "The field Descricao must be between 5 and 100 characters")
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria")
